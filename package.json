@@ -1,6 +1,6 @@
 {
   "name": "react-native-tailwind-classnames",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Add support for a className prop that understands Tailwind classes",
   "main": "./dist/index.js",
   "scripts": {
@@ -12,6 +12,9 @@
     "tailwind",
     "react",
     "native"
+  ],
+  "files": [
+    "dist/**/*"
   ],
   "author": "",
   "license": "ISC",
