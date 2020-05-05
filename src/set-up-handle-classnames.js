@@ -1,4 +1,4 @@
-export default function setUpHandleClassNames(tw) {
+export const setUpHandleClassNames = (tw) => {
   return function handleClassNames({ className }) {
     if (!className) {
       return

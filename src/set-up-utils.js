@@ -1,10 +1,8 @@
-export default class Utils {
-  constructor(theme) {
-    this.theme = theme
-  }
+export const setUpUtils = (theme) => {
+  const util = {}
 
-  validateSpacingVals = (val) => {
-    const spacingKeys = Object.keys(this.theme.spacing)
+  const validateSpacingVals = (val) => {
+    const spacingKeys = Object.keys(theme.spacing)
 
     if (!spacingKeys.includes(val) || !val) {
       ThrowDevError(
@@ -13,34 +11,34 @@ export default class Utils {
     }
   }
 
-  padding = (val, side) => {
-    this.validateSpacingVals(val)
+  const padding = (val, side) => {
+    validateSpacingVals(val)
 
     switch (side) {
       case 'y':
         return {
-          paddingTop: this.theme.spacing[val],
-          paddingBottom: this.theme.spacing[val],
+          paddingTop: theme.spacing[val],
+          paddingBottom: theme.spacing[val],
         }
       case 'x':
         return {
-          paddingLeft: this.theme.spacing[val],
-          paddingRight: this.theme.spacing[val],
+          paddingLeft: theme.spacing[val],
+          paddingRight: theme.spacing[val],
         }
       case 't':
-        return { paddingTop: this.theme.spacing[val] }
+        return { paddingTop: theme.spacing[val] }
 
       case 'r':
-        return { paddingRight: this.theme.spacing[val] }
+        return { paddingRight: theme.spacing[val] }
 
       case 'b':
-        return { paddingBottom: this.theme.spacing[val] }
+        return { paddingBottom: theme.spacing[val] }
 
       case 'l':
-        return { paddingLeft: this.theme.spacing[val] }
+        return { paddingLeft: theme.spacing[val] }
 
       default:
-        return { padding: this.theme.spacing[val] }
+        return { padding: theme.spacing[val] }
     }
   }
 
@@ -53,42 +51,42 @@ export default class Utils {
    * p(8)
    * py(8)
    */
-  p = (val) => this.padding(val)
-  py = (val) => this.padding(val, 'y')
-  px = (val) => this.padding(val, 'x')
-  pt = (val) => this.padding(val, 't')
-  pr = (val) => this.padding(val, 'r')
-  pb = (val) => this.padding(val, 'b')
-  pl = (val) => this.padding(val, 'l')
+  util.p = (val) => padding(val)
+  util.py = (val) => padding(val, 'y')
+  util.px = (val) => padding(val, 'x')
+  util.pt = (val) => padding(val, 't')
+  util.pr = (val) => padding(val, 'r')
+  util.pb = (val) => padding(val, 'b')
+  util.pl = (val) => padding(val, 'l')
 
-  margin = (val, side) => {
-    this.validateSpacingVals(val)
+  const margin = (val, side) => {
+    validateSpacingVals(val)
 
     switch (side) {
       case 'y':
         return {
-          marginTop: this.theme.spacing[val],
-          marginBottom: this.theme.spacing[val],
+          marginTop: theme.spacing[val],
+          marginBottom: theme.spacing[val],
         }
       case 'x':
         return {
-          marginLeft: this.theme.spacing[val],
-          marginRight: this.theme.spacing[val],
+          marginLeft: theme.spacing[val],
+          marginRight: theme.spacing[val],
         }
       case 't':
-        return { marginTop: this.theme.spacing[val] }
+        return { marginTop: theme.spacing[val] }
 
       case 'r':
-        return { marginRight: this.theme.spacing[val] }
+        return { marginRight: theme.spacing[val] }
 
       case 'b':
-        return { marginBottom: this.theme.spacing[val] }
+        return { marginBottom: theme.spacing[val] }
 
       case 'l':
-        return { marginLeft: this.theme.spacing[val] }
+        return { marginLeft: theme.spacing[val] }
 
       default:
-        return { margin: this.theme.spacing[val] }
+        return { margin: theme.spacing[val] }
     }
   }
 
@@ -101,13 +99,13 @@ export default class Utils {
    * m(8)
    * my(8)
    */
-  m = (val) => this.margin(val)
-  my = (val) => this.margin(val, 'y')
-  mx = (val) => this.margin(val, 'x')
-  mt = (val) => this.margin(val, 't')
-  mr = (val) => this.margin(val, 'r')
-  mb = (val) => this.margin(val, 'b')
-  ml = (val) => this.margin(val, 'l')
+  util.m = (val) => margin(val)
+  util.my = (val) => margin(val, 'y')
+  util.mx = (val) => margin(val, 'x')
+  util.mt = (val) => margin(val, 't')
+  util.mr = (val) => margin(val, 'r')
+  util.mb = (val) => margin(val, 'b')
+  util.ml = (val) => margin(val, 'l')
 
   /**
    * Width/Height utils:
@@ -118,16 +116,16 @@ export default class Utils {
    * w(8)
    * h(8)
    */
-  w = (val) => {
-    this.validateSpacingVals(val)
+  util.w = (val) => {
+    validateSpacingVals(val)
 
-    return { width: this.theme.spacing[val] }
+    return { width: theme.spacing[val] }
   }
 
-  h = (val) => {
-    this.validateSpacingVals(val)
+  util.h = (val) => {
+    validateSpacingVals(val)
 
-    return { height: this.theme.spacing[val] }
+    return { height: theme.spacing[val] }
   }
 
   /**
@@ -139,7 +137,7 @@ export default class Utils {
    * rect(8) // height defaults to the same as width
    * rect(8, 8) // specify height as second param
    */
-  rect = (width, optionalHeight) => {
+  util.rect = (width, optionalHeight) => {
     const height = optionalHeight || width
 
     return Object.assign({}, w(width), h(height))
@@ -155,18 +153,18 @@ export default class Utils {
    * font('normal')
    * font('sans')
    */
-  font = (val) => {
-    const weightKeys = Object.keys(this.theme.fontWeight)
-    const familyKeys = Object.keys(this.theme.fontFamily)
+  util.font = (val) => {
+    const weightKeys = Object.keys(theme.fontWeight)
+    const familyKeys = Object.keys(theme.fontFamily)
 
     if (typeof val !== 'string') {
       ThrowDevError(
         `font() takes a string as it's only parameter. Got ${typeof val}`
       )
     } else if (weightKeys.includes(val)) {
-      return { fontWeight: this.theme.fontWeight[val] }
+      return { fontWeight: theme.fontWeight[val] }
     } else if (familyKeys.includes(val)) {
-      return { fontFamily: this.theme.fontFamily[val] }
+      return { fontFamily: theme.fontFamily[val] }
     } else {
       ThrowDevError(
         `${val} doesn't exist in theme.fontWeight or theme.fontFamily. See: tailwind config`
@@ -185,18 +183,18 @@ export default class Utils {
    * text('gray-900')
    * text('center')
    */
-  text = (val) => {
-    const sizeKeys = Object.keys(this.theme.fontSize)
-    const colorKeys = Object.keys(this.theme.colors)
+  util.text = (val) => {
+    const sizeKeys = Object.keys(theme.fontSize)
+    const colorKeys = Object.keys(theme.colors)
 
     if (typeof val !== 'string') {
       ThrowDevError(
         `text() takes a string as it's only parameter. Got ${typeof val}`
       )
     } else if (sizeKeys.includes(val)) {
-      return { fontSize: this.theme.fontSize[val] }
+      return { fontSize: theme.fontSize[val] }
     } else if (colorKeys.includes(val)) {
-      return { color: this.theme.colors[val] }
+      return { color: theme.colors[val] }
     } else if (['center'].includes(val)) {
       return { textAlign: val }
     } else {
@@ -214,11 +212,11 @@ export default class Utils {
    *
    * uppercase()
    */
-  uppercase = () => ({ textTransform: 'uppercase' })
-  lowercase = () => ({ textTransform: 'lowercase' })
-  capitalize = () => ({ textTransform: 'capitalize' })
-  normalCase = () => ({ textTransform: 'none' })
-  underline = () => ({ textDecorationLine: 'underline' })
+  util.uppercase = () => ({ textTransform: 'uppercase' })
+  util.lowercase = () => ({ textTransform: 'lowercase' })
+  util.capitalize = () => ({ textTransform: 'capitalize' })
+  util.normalCase = () => ({ textTransform: 'none' })
+  util.underline = () => ({ textDecorationLine: 'underline' })
 
   /**
    * Background util:
@@ -228,13 +226,15 @@ export default class Utils {
    * eg.
    * bg('gray-900')
    */
-  bg = (val) => {
-    const colorKeys = Object.keys(this.theme.colors)
+  util.bg = (val) => {
+    const colorKeys = Object.keys(theme.colors)
 
     if (colorKeys.includes(val)) {
-      return { backgroundColor: this.theme.colors[val] }
+      return { backgroundColor: theme.colors[val] }
     } else {
-      ThrowDevError(`${val} doesn't exist in theme.colors. See: tailwind config`)
+      ThrowDevError(
+        `${val} doesn't exist in theme.colors. See: tailwind config`
+      )
     }
   }
 
@@ -244,8 +244,8 @@ export default class Utils {
    * eg.
    * relative()
    */
-  relative = () => ({ position: 'relative' })
-  absolute = () => ({ position: 'absolute ' })
+  util.relative = () => ({ position: 'relative' })
+  util.absolute = () => ({ position: 'absolute ' })
 
   /**
    * Insets
@@ -256,8 +256,8 @@ export default class Utils {
    * top('full') // equivalent to: inset('full', 'top')
    * inset('full') // sets all 4 sides
    */
-  inset = (val, side) => {
-    const insetKeys = Object.keys(this.theme.inset)
+  util.inset = (val, side) => {
+    const insetKeys = Object.keys(theme.inset)
 
     if (!insetKeys.includes(val)) {
       ThrowDevError(`${val} doesn't exist in inset. See: tailwind config`)
@@ -266,34 +266,34 @@ export default class Utils {
     switch (side) {
       case 'top':
         return {
-          top: this.theme.inset[val],
+          top: theme.inset[val],
         }
       case 'right':
         return {
-          right: this.theme.inset[val],
+          right: theme.inset[val],
         }
       case 'bottom':
         return {
-          bottom: this.theme.inset[val],
+          bottom: theme.inset[val],
         }
       case 'left':
         return {
-          left: this.theme.inset[val],
+          left: theme.inset[val],
         }
       default:
         return {
-          top: this.theme.inset[val],
-          right: this.theme.inset[val],
-          bottom: this.theme.inset[val],
-          left: this.theme.inset[val],
+          top: theme.inset[val],
+          right: theme.inset[val],
+          bottom: theme.inset[val],
+          left: theme.inset[val],
         }
     }
   }
 
-  top = (val) => this.inset(val, 'top')
-  right = (val) => this.inset(val, 'right')
-  bottom = (val) => this.inset(val, 'bottom')
-  left = (val) => this.inset(val, 'left')
+  util.top = (val) => inset(val, 'top')
+  util.right = (val) => inset(val, 'right')
+  util.bottom = (val) => inset(val, 'bottom')
+  util.left = (val) => inset(val, 'left')
 
   /**
    * Overflow
@@ -301,7 +301,7 @@ export default class Utils {
    * eg.
    * overflow('hidden')
    */
-  overflow = (val) => {
+  util.overflow = (val) => {
     switch (val) {
       case 'hidden':
         return { overflow: 'hidden' }
@@ -320,7 +320,7 @@ export default class Utils {
    * flex() // equivalent to flex('1') or flex(1)
    * flex('row')
    */
-  flex = (val) => {
+  util.flex = (val) => {
     if (val === 'row') {
       return { flexDirection: 'row' }
     } else if (val === 'col') {
@@ -344,7 +344,7 @@ export default class Utils {
    * eg.
    * justify('center')
    */
-  justify = (val) => {
+  util.justify = (val) => {
     switch (val) {
       case 'center':
         return { justifyContent: 'center' }
@@ -365,7 +365,7 @@ export default class Utils {
    * eg.
    * items('center')
    */
-  items = (val) => {
+  util.items = (val) => {
     switch (val) {
       case 'center':
         return { alignItems: 'center' }
@@ -384,7 +384,7 @@ export default class Utils {
    * eg.
    * items('center')
    */
-  self = (val) => {
+  util.self = (val) => {
     switch (val) {
       case 'start':
         return { alignSelf: 'flex-start' }
@@ -404,8 +404,8 @@ export default class Utils {
    * rounded('full')
    * rounded('b-full') // sets bottom borderRadius to 'full'
    */
-  rounded = (val) => {
-    const borderRadiusKeys = Object.keys(this.theme.borderRadius)
+  util.rounded = (val) => {
+    const borderRadiusKeys = Object.keys(theme.borderRadius)
     const parts = val.split('-')
 
     if (parts.length === 1) {
@@ -415,7 +415,7 @@ export default class Utils {
         )
       }
 
-      return { borderRadius: this.theme.borderRadius[val] }
+      return { borderRadius: theme.borderRadius[val] }
     }
 
     if (!borderRadiusKeys.includes(parts[1])) {
@@ -429,13 +429,13 @@ export default class Utils {
 
     if (side === 'b') {
       return {
-        borderBottomLeftRadius: this.theme.borderRadius[sideVal],
-        borderBottomRightRadius: this.theme.borderRadius[sideVal],
+        borderBottomLeftRadius: theme.borderRadius[sideVal],
+        borderBottomRightRadius: theme.borderRadius[sideVal],
       }
     } else if (side === 't') {
       return {
-        borderTopLeftRadius: this.theme.borderRadius[sideVal],
-        borderTopRightRadius: this.theme.borderRadius[sideVal],
+        borderTopLeftRadius: theme.borderRadius[sideVal],
+        borderTopRightRadius: theme.borderRadius[sideVal],
       }
     }
   }
@@ -450,7 +450,7 @@ export default class Utils {
    * border('b') // sets border on bottom
    * border('blue-500') // sets border color
    */
-  border = (val) => {
+  util.border = (val) => {
     if (!val) {
       return {
         borderWidth: 1,
@@ -458,16 +458,16 @@ export default class Utils {
       }
     }
 
-    const colorKeys = Object.keys(this.theme.colors)
-    const borderWidthKeys = Object.keys(this.theme.borderWidth)
+    const colorKeys = Object.keys(theme.colors)
+    const borderWidthKeys = Object.keys(theme.borderWidth)
 
     if (colorKeys.includes(val)) {
       return {
-        borderColor: this.theme.colors[val],
+        borderColor: theme.colors[val],
       }
     } else if (borderWidthKeys.includes(val)) {
       return {
-        borderWidth: this.theme.borderWidth[val],
+        borderWidth: theme.borderWidth[val],
         borderStyle: 'solid',
       }
     }
@@ -475,7 +475,7 @@ export default class Utils {
     const parts = val.split('-')
     const side = parts[0]
     const sideWidth = borderWidthKeys.includes(parts[1])
-      ? this.theme.borderWidth[parts[1]]
+      ? theme.borderWidth[parts[1]]
       : 1
 
     switch (side) {
@@ -513,11 +513,11 @@ export default class Utils {
    * eg.
    * opacity('60')
    */
-  opacity = (val) => {
-    const opacityKeys = Object.keys(this.theme.opacity)
+  util.opacity = (val) => {
+    const opacityKeys = Object.keys(theme.opacity)
 
     if (opacityKeys.includes(val)) {
-      return { opacity: this.theme.opacity[val] }
+      return { opacity: theme.opacity[val] }
     }
 
     ThrowDevError(`${val} doesn't exist in theme.opacity. See: tailwind config`)
@@ -531,39 +531,43 @@ export default class Utils {
    * eg.
    * shadow('md')
    */
-  shadow = (val) => {
-    const boxShadowKeys = Object.keys(this.theme.boxShadow)
+  util.shadow = (val) => {
+    const boxShadowKeys = Object.keys(theme.boxShadow)
 
     if (boxShadowKeys.includes(val)) {
       return Object.assign(
         {},
         {
-          boxShadow: this.theme.boxShadow[val],
+          boxShadow: theme.boxShadow[val],
         },
-        this.elevation(val)
+        elevation(val)
       )
     }
 
-    ThrowDevError(`${val} doesn't exist in theme.boxShadow. See: tailwind config`)
+    ThrowDevError(
+      `${val} doesn't exist in theme.boxShadow. See: tailwind config`
+    )
   }
 
-  elevation = (val) => {
-    const elevationKeys = Object.keys(this.theme.elevation)
+  util.elevation = (val) => {
+    const elevationKeys = Object.keys(theme.elevation)
 
     if (elevationKeys.includes(val)) {
       return {
-        elevation: this.theme.elevation[val],
+        elevation: theme.elevation[val],
       }
     }
 
-    ThrowDevError(`${val} doesn't exist in theme.elevation. See: tailwind config`)
+    ThrowDevError(
+      `${val} doesn't exist in theme.elevation. See: tailwind config`
+    )
   }
 
   /**
    * ZIndex
    */
-  z = (val) => {
-    const zIndexKeys = Object.keys(this.theme.zIndex)
+  util.z = (val) => {
+    const zIndexKeys = Object.keys(theme.zIndex)
 
     if (!zIndexKeys.includes(val) || !val) {
       ThrowDevError(
@@ -572,7 +576,9 @@ export default class Utils {
     }
 
     return {
-      zIndex: this.theme.zIndex[val],
+      zIndex: theme.zIndex[val],
     }
   }
+
+  return util
 }
